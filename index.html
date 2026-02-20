@@ -443,9 +443,14 @@
   <div class="phone-frame">
     <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
 
-    <audio id="music" loop>
-      <source src="young-and-beautiful-instrumental.mp3" type="audio/mpeg">
-    </audio>
+    <iframe
+      id="ytplayer"
+      width="0"
+      height="0"
+      src="https://www.youtube.com/embed/cKJBe0sfLN8?autoplay=1&loop=1&playlist=cKJBe0sfLN8"
+      frameborder="0"
+      allow="autoplay">
+    </iframe>
 
     <main class="screen">
       <section class="scene" id="opening">
@@ -572,37 +577,27 @@
   </div>
 
   <script>
-    const music = document.getElementById("music");
     const musicButton = document.getElementById("musicButton");
     const envelope = document.getElementById("envelope");
-
-    async function playMusic() {
-      try {
-        await music.play();
-        musicButton.textContent = "❚❚";
-      } catch (error) {
-        musicButton.textContent = "♫";
-      }
-    }
-
-    function pauseMusic() {
-      music.pause();
-      musicButton.textContent = "♫";
-    }
+    let playing = true;
 
     function startInvite() {
       envelope.classList.add("open");
-      playMusic();
       setTimeout(() => {
         document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
       }, 850);
     }
 
     function toggleMusic() {
-      if (music.paused) {
-        playMusic();
+      const iframe = document.getElementById("ytplayer");
+      if (playing) {
+        iframe.src = "";
+        playing = false;
+        musicButton.textContent = "♫";
       } else {
-        pauseMusic();
+        iframe.src = "https://www.youtube.com/embed/cKJBe0sfLN8?autoplay=1&loop=1&playlist=cKJBe0sfLN8";
+        playing = true;
+        musicButton.textContent = "❚❚";
       }
     }
 
