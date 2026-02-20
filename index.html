@@ -6,17 +6,18 @@
   <title>Walimatul Urus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #12060a;
-      --phone: #f5f1ec;
-      --ink: #2b1b21;
-      --muted: #705561;
-      --accent: #6e1329;
-      --accent-soft: #8e2945;
-      --line: rgba(110, 19, 41, 0.2);
-    }
+      --bg: #f8f7f4;
+      --text: #1f2328;
+      --muted: #5b6270;
+      --line: rgba(31, 35, 40, 0.12);
+      --panel: rgba(255, 255, 255, 0.66);
+      --accent: #304e6b;
+      --accent-2: #c78d56;
+      --radius: 24px;
+    }   
 
     * {
       box-sizing: border-box;
@@ -27,608 +28,299 @@
       margin: 0;
       min-height: 100%;
       scroll-behavior: smooth;
-      background: radial-gradient(circle at 20% 15%, #32101c 0%, var(--bg) 48%, #080306 100%);
       font-family: "Outfit", sans-serif;
-      color: var(--ink);
+      color: var(--text);
+      background: var(--bg);
       overflow-x: hidden;
     }
 
     body {
-      padding: 18px 14px;
-    }
-
-    .phone-frame {
-      width: min(430px, 100%);
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 34px;
-      border: 8px solid #f0f0f0;
-      box-shadow: 0 26px 64px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
       position: relative;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
     }
 
-    .phone-frame::before {
+    body::before,
+    body::after {
       content: "";
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 18px;
-      border-radius: 0 0 14px 14px;
-      background: #ececec;
-      z-index: 10;
+      position: fixed;
+      width: 52vmax;
+      height: 52vmax;
+      border-radius: 50%;
+      z-index: -3;
+      filter: blur(6px);
+      opacity: 0.55;
+      pointer-events: none;
+      animation: drift 18s ease-in-out infinite;
     }
 
-    .screen {
-      max-height: calc(100vh - 52px);
-      overflow-y: auto;
-      scroll-snap-type: y mandatory;
-      background: var(--phone);
+    body::before {
+      top: -22vmax;
+      left: -14vmax;
+      background: radial-gradient(circle at 32% 30%, rgba(78, 126, 169, 0.42), rgba(78, 126, 169, 0));
     }
 
-    .scene {
-      min-height: calc(100vh - 68px);
-      scroll-snap-align: start;
-      padding: 38px 24px 34px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
+    body::after {
+      bottom: -24vmax;
+      right: -16vmax;
+      background: radial-gradient(circle at 65% 55%, rgba(199, 141, 86, 0.35), rgba(199, 141, 86, 0));
+      animation-delay: -8s;
+    }
+
+    .gradient-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 44%),
+        linear-gradient(160deg, rgba(73, 109, 140, 0.09), rgba(199, 141, 86, 0.08) 52%, rgba(54, 89, 120, 0.09));
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.82));
+    }
+
+    @keyframes drift {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-12px) scale(1.025);
+      }
+    }
+
+    .music-btn {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--text);
+      font-size: 1rem;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 30;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+    }
+
+    .music-btn:hover {
+      transform: translateY(-1px);
+      background: #fff;
+    }
+
+    .section {
+      min-height: 100vh;
+      width: min(920px, 92vw);
+      margin: 0 auto;
+      padding: clamp(34px, 5vw, 72px) 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .card {
+      width: min(760px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 16px 42px rgba(26, 35, 46, 0.09);
+      padding: clamp(28px, 4vw, 56px);
+      text-align: center;
       opacity: 0;
       transform: translateY(18px);
-      animation: fadeUp 1s ease forwards;
+      animation: softReveal 1s ease forwards;
       animation-timeline: view();
-      animation-range: entry 10% cover 32%;
+      animation-range: entry 8% cover 34%;
     }
 
-    .scene::before,
-    .scene::after {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(142, 41, 69, 0.2), rgba(142, 41, 69, 0));
-      pointer-events: none;
-      z-index: 0;
+    @keyframes softReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .scene::before {
-      top: 10px;
-      left: -24px;
-    }
-
-    .scene::after {
-      bottom: 12px;
-      right: -20px;
-    }
-
-    .content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: rgba(255, 252, 248, 0.88);
-      padding: 26px 18px;
-      box-shadow: 0 12px 28px rgba(64, 26, 39, 0.08);
-    }
-
-    .eyebrow {
+    .tag {
       margin: 0;
+      font-size: 0.74rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.22em;
-      font-size: 0.72rem;
+      letter-spacing: 0.2em;
       color: var(--muted);
     }
 
     h1,
     h2 {
-      font-family: "Cormorant Garamond", serif;
-      color: var(--ink);
+      font-family: "Playfair Display", serif;
+      color: #15181c;
       line-height: 1.1;
-      margin: 10px 0;
+      margin: 10px 0 14px;
     }
 
     h1 {
-      font-size: clamp(2.1rem, 10vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
+      font-size: clamp(2.1rem, 8vw, 4.2rem);
+      font-weight: 600;
     }
 
     h2 {
-      font-size: clamp(1.55rem, 7vw, 2.2rem);
+      font-size: clamp(1.65rem, 5vw, 2.6rem);
       font-weight: 600;
-    }
-
-    .script {
-      font-family: "Alex Brush", cursive;
-      font-size: clamp(1.5rem, 8vw, 2.2rem);
-      color: var(--accent);
-      margin: 10px 0 0;
-    }
-
-    .divider {
-      width: 120px;
-      height: 1px;
-      margin: 14px auto;
-      background: linear-gradient(90deg, rgba(110, 19, 41, 0), rgba(110, 19, 41, 0.7), rgba(110, 19, 41, 0));
     }
 
     .names {
-      margin: 6px 0;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(1.22rem, 6vw, 1.74rem);
-      color: var(--accent);
-      font-weight: 600;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.3rem, 4.8vw, 2rem);
       line-height: 1.2;
+      margin: 14px 0;
     }
 
     p {
-      margin: 9px 0;
+      margin: 10px 0;
       color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: clamp(0.96rem, 2vw, 1.06rem);
     }
 
-    .event-list {
-      margin-top: 14px;
-      display: grid;
-      gap: 10px;
-      text-align: left;
-    }
-
-    .event-item {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 12px;
-      background: #fff;
+    .song {
+      margin-top: 12px;
       font-size: 0.9rem;
-      color: #4a3940;
-    }
-
-    .event-item strong {
-      color: var(--accent);
-      font-size: 0.73rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      display: block;
-      margin-bottom: 3px;
+      color: #3b4654;
     }
 
     .btn {
-      margin-top: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      margin-top: 22px;
       border: 0;
       border-radius: 999px;
-      padding: 11px 22px;
-      font-size: 0.86rem;
+      padding: 12px 24px;
+      font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      transition: transform 0.24s ease, box-shadow 0.24s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #426a8f);
       color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-      box-shadow: 0 10px 22px rgba(110, 19, 41, 0.28);
+      box-shadow: 0 12px 24px rgba(48, 78, 107, 0.25);
     }
 
     .btn-secondary {
+      background: linear-gradient(135deg, var(--accent-2), #d69d64);
       color: #fff;
-      background: linear-gradient(135deg, #7e5160, #a06b7d);
-      box-shadow: 0 10px 22px rgba(91, 59, 70, 0.25);
+      box-shadow: 0 12px 24px rgba(131, 85, 40, 0.24);
     }
 
     .btn:hover {
       transform: translateY(-2px);
     }
 
-    .song {
-      margin-top: 8px;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #6f5a63;
-    }
-
-    .music-btn {
-      position: absolute;
-      top: 16px;
-      right: 14px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--accent);
-      font-size: 0.95rem;
+    .event-grid {
+      margin-top: 22px;
       display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    .envelope-wrap {
-      width: 180px;
-      margin: 10px auto 14px;
-      perspective: 600px;
-    }
-
-    .envelope {
-      width: 100%;
-      height: 110px;
-      position: relative;
-      transform-style: preserve-3d;
-    }
-
-    .envelope-body {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, #fff, #f3ece6);
-      border: 1px solid #d8c4cb;
-      border-radius: 6px;
-      box-shadow: 0 6px 14px rgba(52, 22, 33, 0.14);
-      overflow: hidden;
-    }
-
-    .wax {
-      position: absolute;
-      left: 50%;
-      top: 53%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #b74462, #7c1832 68%);
-      box-shadow: 0 2px 8px rgba(80, 22, 40, 0.35);
-      color: #f6d8df;
-      font-family: "Cormorant Garamond", serif;
-      font-size: 12px;
-      display: grid;
-      place-items: center;
-    }
-
-    .envelope-flap {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 54px;
-      background: linear-gradient(180deg, #fefefe, #e9ddd1);
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transform-origin: top center;
-      transition: transform 0.95s ease;
-      border: 1px solid #d8c4cb;
-      border-bottom: 0;
-      z-index: 2;
-    }
-
-    .letter {
-      position: absolute;
-      left: 50%;
-      bottom: 12px;
-      width: 130px;
-      height: 74px;
-      transform: translateX(-50%);
-      background: #fff;
-      border: 1px solid #e1d0d7;
-      border-radius: 4px;
-      box-shadow: 0 4px 10px rgba(71, 23, 39, 0.15);
-      transition: transform 0.95s ease;
-      display: grid;
-      place-items: center;
-      font-family: "Alex Brush", cursive;
-      color: var(--accent);
-      font-size: 24px;
-      z-index: 1;
-    }
-
-    .envelope.open .envelope-flap {
-      transform: rotateX(170deg);
-    }
-
-    .envelope.open .letter {
-      transform: translateX(-50%) translateY(-46px);
-    }
-
-    .countdown {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .time-box {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 4px;
-    }
-
-    .time-box .num {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.3rem;
-      line-height: 1;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .time-box .lbl {
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .contact-list {
-      margin-top: 14px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .contact-item {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
-      padding: 12px;
-      display: grid;
-      grid-template-columns: 38px 1fr auto;
-      align-items: center;
-      gap: 10px;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       text-align: left;
     }
 
-    .icon-circle {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
+    .event-item {
       border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      color: var(--accent);
-      font-size: 1rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 14px;
     }
 
-    .contact-name {
-      margin: 0;
-      color: var(--ink);
-      font-size: 0.9rem;
-      font-weight: 500;
-      line-height: 1.2;
-    }
-
-    .contact-role {
-      margin: 0;
-      font-size: 0.73rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
+    .event-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #3b4654;
       text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
     }
 
-    .contact-actions {
-      display: flex;
-      gap: 7px;
+    .thanks {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      color: #22262b;
+      margin: 0;
     }
 
-    .action-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      text-decoration: none;
-      color: var(--accent);
-      font-size: 0.8rem;
-      background: #fff;
-    }
-
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+    @media (max-width: 760px) {
+      .event-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="phone-frame">
-    <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
+  <div class="gradient-layer" aria-hidden="true"></div>
 
-    <iframe
-      id="ytplayer"
-      width="0"
-      height="0"
-      src="https://www.youtube.com/embed/cKJBe0sfLN8?autoplay=1&loop=1&playlist=cKJBe0sfLN8"
-      frameborder="0"
-      allow="autoplay">
-    </iframe>
 
-    <main class="screen">
-      <section class="scene" id="opening">
-        <div class="content">
-          <p class="eyebrow">Wedding Invitation</p>
-          <h1>Walimatul Urus</h1>
-          <div class="envelope-wrap">
-            <div class="envelope" id="envelope">
-              <div class="envelope-flap" aria-hidden="true"></div>
-              <div class="envelope-body" aria-hidden="true"></div>
-              <div class="letter" aria-hidden="true">H &amp; S</div>
-              <div class="wax" aria-hidden="true">W</div>
-            </div>
-          </div>
-          <p class="script">You are invited</p>
-          <div class="divider" aria-hidden="true"></div>
-          <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
-          <p>Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
-          <p class="song">Lana Del Rey - Young and Beautiful (Instrumental)</p>
-          <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
+  <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
+
+  <section class="section" id="opening">
+    <div class="card">
+      <p class="tag">Wedding Invitation</p>
+      <h1>Walimatul Urus</h1>
+      <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
+      <p>Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
+      <p class="song">With love & prayers</p>
+      <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
+    </div>
+  </section>
+
+  <section class="section" id="intro">
+    <div class="card">
+      <p class="tag">Keluarga</p>
+      <h2>Dengan Penuh Kesyukuran</h2>
+      <p>Puteri kepada:</p>
+      <p><strong>Nordin bin Mohammad</strong><br>&amp;<br><strong>Suriani Binti Abdul Rahim</strong></p>
+    </div>
+  </section>
+
+  <section class="section" id="event">
+    <div class="card">
+      <p class="tag">Majlis</p>
+      <h2>Akad Nikah &amp; Reception</h2>
+      <div class="event-grid">
+        <div class="event-item">
+          <strong>Tarikh</strong>
+          09 May 2026
         </div>
-      </section>
-
-      <section class="scene" id="intro">
-        <div class="content">
-          <p class="eyebrow">Keluarga</p>
-          <h2>Dengan Penuh Kesyukuran</h2>
-          <div class="divider" aria-hidden="true"></div>
-          <p>Puteri kepada:</p>
-          <p class="names">Nordin bin Mohammad<br>&amp;<br>Suriani Binti Abdul Rahim</p>
+        <div class="event-item">
+          <strong>Masa</strong>
+          10.00 AM - 4.00 PM
         </div>
-      </section>
-
-      <section class="scene" id="countdownSection">
-        <div class="content">
-          <p class="eyebrow">Detik Bahagia</p>
-          <h2>Menuju Hari Majlis</h2>
-          <p>09 May 2026, 10:00 AM</p>
-          <div class="countdown" aria-live="polite">
-            <div class="time-box">
-              <div class="num" id="days">0</div>
-              <div class="lbl">Hari</div>
-            </div>
-            <div class="time-box">
-              <div class="num" id="hours">0</div>
-              <div class="lbl">Jam</div>
-            </div>
-            <div class="time-box">
-              <div class="num" id="minutes">0</div>
-              <div class="lbl">Minit</div>
-            </div>
-            <div class="time-box">
-              <div class="num" id="seconds">0</div>
-              <div class="lbl">Saat</div>
-            </div>
-          </div>
+        <div class="event-item">
+          <strong>Lokasi</strong>
+          Laman Dahlia, Kuala Kangsar
         </div>
-      </section>
+      </div>
+      <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
+        Lihat Lokasi
+      </a>
+    </div>
+  </section>
 
-      <section class="scene" id="event">
-        <div class="content">
-          <p class="eyebrow">Majlis</p>
-          <h2>Akad Nikah &amp; Reception</h2>
-          <div class="event-list">
-            <div class="event-item">
-              <strong>Tarikh</strong>
-              09 May 2026
-            </div>
-            <div class="event-item">
-              <strong>Masa</strong>
-              10.00 AM - 4.00 PM
-            </div>
-            <div class="event-item">
-              <strong>Lokasi</strong>
-              Laman Dahlia, Kuala Kangsar
-            </div>
-          </div>
-          <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
-            Lihat Lokasi
-          </a>
-        </div>
-      </section>
-
-      <section class="scene" id="contact">
-        <div class="content">
-          <p class="eyebrow">Hubungi</p>
-          <h2>RSVP &amp; Pertanyaan</h2>
-          <div class="contact-list">
-            <div class="contact-item">
-              <div class="icon-circle" aria-hidden="true">USR</div>
-              <div>
-                <p class="contact-name">Siti Anisah</p>
-                <p class="contact-role">Kakak Pengantin</p>
-              </div>
-              <div class="contact-actions">
-                <a class="action-btn" href="tel:+60123456789" aria-label="Call Siti">CALL</a>
-                <a class="action-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/60123456789" aria-label="WhatsApp Siti">WA</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <div class="icon-circle" aria-hidden="true">USR</div>
-              <div>
-                <p class="contact-name">Ariq Anif</p>
-                <p class="contact-role">Adik Pengantin</p>
-              </div>
-              <div class="contact-actions">
-                <a class="action-btn" href="tel:+60198765432" aria-label="Call Ariq">CALL</a>
-                <a class="action-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/60198765432" aria-label="WhatsApp Ariq">WA</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="scene" id="closing">
-        <div class="content">
-          <p class="eyebrow">Terima Kasih</p>
-          <h2>Atas Doa &amp; Kehadiran Anda</h2>
-          <p class="script">Jumpa di hari bahagia kami</p>
-        </div>
-      </section>
-    </main>
-  </div>
+  <section class="section" id="closing">
+    <div class="card">
+      <p class="thanks">Terima kasih</p>
+      <p>Atas doa, kasih sayang, dan kehadiran anda.</p>
+    </div>
+  </section>
 
   <script>
-    const musicButton = document.getElementById("musicButton");
-    const envelope = document.getElementById("envelope");
-    let playing = true;
-
+    
     function startInvite() {
-      envelope.classList.add("open");
-      setTimeout(() => {
-        document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 850);
+      document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    function toggleMusic() {
-      const iframe = document.getElementById("ytplayer");
-      if (playing) {
-        iframe.src = "";
-        playing = false;
-        musicButton.textContent = "♫";
-      } else {
-        iframe.src = "https://www.youtube.com/embed/cKJBe0sfLN8?autoplay=1&loop=1&playlist=cKJBe0sfLN8";
-        playing = true;
-        musicButton.textContent = "❚❚";
-      }
-    }
-
-    function updateCountdown() {
-      const target = new Date("2026-05-09T10:00:00+08:00");
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        document.getElementById("days").textContent = "0";
-        document.getElementById("hours").textContent = "0";
-        document.getElementById("minutes").textContent = "0";
-        document.getElementById("seconds").textContent = "0";
-        return;
-      }
-
-      const totalSeconds = Math.floor(diff / 1000);
-      const days = Math.floor(totalSeconds / 86400);
-      const hours = Math.floor((totalSeconds % 86400) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-
-      document.getElementById("days").textContent = String(days);
-      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
-
