@@ -1,148 +1,385 @@
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Walimatul Urus</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walimatul Urus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ivory: #f7f3eb;
+      --sand: #e8d8bf;
+      --gold: #b38a4d;
+      --olive: #3c4c3f;
+      --rosewood: #6e4a3f;
+      --text: #2c2a26;
+      --card: rgba(255, 252, 246, 0.82);
+      --shadow: 0 18px 60px rgba(60, 48, 32, 0.18);
+      --radius: 28px;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body {
-  margin:0;
-  font-family:'Poppins', sans-serif;
-  overflow-x:hidden;
-  color:white;
-}
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background: var(--ivory);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
 
-.scene {
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:20px;
-  background:linear-gradient(-45deg,#fff3b0,#ffe066,#ffd166,#fff8cc);
-  background-size:400% 400%;
-  animation:gradient 10s ease infinite;
-}
+    body {
+      position: relative;
+      line-height: 1.55;
+    }
 
-@keyframes gradient {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 55vmax;
+      height: 55vmax;
+      border-radius: 50%;
+      filter: blur(4px);
+      z-index: -3;
+      opacity: 0.42;
+      pointer-events: none;
+      animation: floatBlob 12s ease-in-out infinite;
+    }
 
-h1,h2,h3,p {
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp 1.5s forwards;
-}
+    body::before {
+      background: radial-gradient(circle at 35% 35%, #e8d8bf 0%, #d7b98c 45%, transparent 75%);
+      top: -20vmax;
+      left: -18vmax;
+    }
 
-@keyframes fadeUp {
-  to {
-    opacity:1;
-    transform:translateY(0);
-  }
-}
+    body::after {
+      background: radial-gradient(circle at 60% 45%, #d7b08f 0%, #b38a4d 43%, transparent 75%);
+      bottom: -24vmax;
+      right: -20vmax;
+      animation-delay: -6s;
+    }
 
-.btn {
-  margin-top:20px;
-  padding:12px 25px;
-  border-radius:30px;
-  background:white;
-  color:#444;
-  text-decoration:none;
-  font-weight:600;
-}
+    @keyframes floatBlob {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-18px) scale(1.03);
+      }
+    }
 
-.card {
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(8px);
-  padding:20px;
-  border-radius:12px;
-  max-width:400px;
-}
+    .ornament {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      background-image:
+        linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.36) 47%, transparent 100%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(179, 138, 77, 0.07) 0,
+          rgba(179, 138, 77, 0.07) 1px,
+          transparent 1px,
+          transparent 20px
+        );
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.65));
+    }
 
-.music-btn {
-  position:fixed;
-  top:15px;
-  right:15px;
-  background:white;
-  color:#444;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-}
-</style>
+    .music-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 252, 246, 0.9);
+      box-shadow: 0 8px 22px rgba(34, 30, 24, 0.15);
+      color: var(--rosewood);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.25s ease, background 0.25s ease;
+      z-index: 20;
+    }
 
+    .music-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: #fff;
+    }
+
+    .scene {
+      min-height: 100vh;
+      width: min(960px, 92vw);
+      margin: 0 auto;
+      padding: clamp(32px, 5vw, 72px) 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(26px);
+      animation: reveal 0.9s ease forwards;
+      animation-timeline: view();
+      animation-range: entry 10% cover 34%;
+    }
+
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel {
+      width: min(760px, 100%);
+      padding: clamp(28px, 4vw, 56px);
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(179, 138, 77, 0.25);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.65), transparent 55%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    h1,
+    h2 {
+      font-family: "Cormorant Garamond", serif;
+      margin: 12px 0;
+      line-height: 1.05;
+      color: #2e241e;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 8vw, 4.35rem);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 5.5vw, 2.9rem);
+      font-weight: 600;
+    }
+
+    .names {
+      margin-top: 18px;
+      font-size: clamp(1.45rem, 4.6vw, 2.15rem);
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--rosewood);
+    }
+
+    p {
+      margin: 12px 0;
+      font-size: clamp(0.96rem, 2vw, 1.1rem);
+    }
+
+    .meta {
+      color: #5c5249;
+      max-width: 58ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .event-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      text-align: left;
+    }
+
+    .event-item {
+      border: 1px solid rgba(110, 74, 63, 0.2);
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .event-item strong {
+      display: block;
+      font-size: 0.77rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 7px;
+    }
+
+    .btn {
+      margin-top: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 0.92rem;
+      padding: 13px 24px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3e5644, #5a7862);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(54, 70, 56, 0.25);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(145deg, #b38a4d, #c79d5d);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(100, 70, 25, 0.22);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(52, 44, 34, 0.22);
+    }
+
+    .closing {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--rosewood);
+      margin: 4px 0;
+    }
+
+    @media (max-width: 760px) {
+      .event-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scene {
+        width: min(760px, 94vw);
+      }
+
+      .music-btn {
+        top: 12px;
+        right: 12px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="ornament" aria-hidden="true"></div>
 
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+  <audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
-<div class="music-btn" onclick="toggleMusic()">🎵</div>
+  <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
 
-<!-- OPENING -->
+  <section class="scene" id="opening">
+    <div class="panel">
+      <p class="eyebrow">Walimatul Urus</p>
+      <h1>You Are Invited</h1>
+      <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
+      <p class="meta">Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
+      <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
+    </div>
+  </section>
 
-<section class="scene">
-  <h2 style="animation-delay:0.3s">Walimatul Urus</h2>
-  <h1 style="animation-delay:0.6s">Husnul Khatimah<br>&<br>Muhammad Nor Syaffiq</h1>
-  <a class="btn" onclick="startInvite()">Buka Jemputan</a>
-</section>
+  <section class="scene" id="intro">
+    <div class="panel">
+      <p class="eyebrow">Keluarga</p>
+      <h2>Dengan penuh kesyukuran</h2>
+      <p>Puteri kepada:</p>
+      <p><strong>Nordin bin Mohammad</strong><br>&amp;<br><strong>Suriani Binti Abdul Rahim</strong></p>
+    </div>
+  </section>
 
-<!-- INTRO -->
+  <section class="scene" id="event">
+    <div class="panel">
+      <p class="eyebrow">Majlis</p>
+      <h2>Akad Nikah &amp; Reception</h2>
 
-<section class="scene">
-  <h2>Dengan penuh kesyukuran</h2>
-  <p>Puteri kepada</p>
-  <p><b>Nordin bin Mohammad</b><br>&<br><b>Suriani Binti Abdul Rahim</b></p>
-</section>
+      <div class="event-grid">
+        <div class="event-item">
+          <strong>Tarikh</strong>
+          09 May 2026
+        </div>
+        <div class="event-item">
+          <strong>Masa</strong>
+          10.00 AM - 4.00 PM
+        </div>
+        <div class="event-item">
+          <strong>Lokasi</strong>
+          Laman Dahlia, Kuala Kangsar
+        </div>
+      </div>
 
-<!-- EVENT -->
+      <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
+        Lihat Lokasi
+      </a>
+    </div>
+  </section>
 
-<section class="scene">
-  <div class="card">
-    <h2>Akad Nikah & Reception</h2>
-    <p>09 May 2026</p>
-    <p>10.00 AM - 4.00 PM</p>
-    <p>Laman Dahlia, Kuala Kangsar</p>
-    <a class="btn" target="_blank"
-    href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
-    Lihat Lokasi
-    </a>
-  </div>
-</section>
+  <section class="scene" id="closing">
+    <div class="panel">
+      <p class="closing">Terima kasih</p>
+      <p>Atas doa, kasih sayang, dan kehadiran anda.</p>
+    </div>
+  </section>
 
-<!-- CLOSING -->
+  <script>
+    const music = document.getElementById("music");
+    const musicButton = document.getElementById("musicButton");
 
-<section class="scene">
-  <h2>Terima kasih</h2>
-  <p>Atas doa & kehadiran anda</p>
-</section>
+    async function playMusic() {
+      try {
+        await music.play();
+        musicButton.textContent = "❚❚";
+      } catch (error) {
+        musicButton.textContent = "♫";
+      }
+    }
 
-<script>
-const music = document.getElementById("music");
+    function pauseMusic() {
+      music.pause();
+      musicButton.textContent = "♫";
+    }
 
-function startInvite(){
-  music.play();
-  window.scrollBy({top:window.innerHeight,behavior:'smooth'});
-}
+    function startInvite() {
+      playMusic();
+      document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
-function toggleMusic(){
-  if(music.paused){ music.play(); }
-  else{ music.pause(); }
-}
-</script>
-
+    function toggleMusic() {
+      if (music.paused) {
+        playMusic();
+      } else {
+        pauseMusic();
+      }
+    }
+  </script>
 </body>
 </html>
