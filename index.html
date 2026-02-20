@@ -6,18 +6,16 @@
   <title>Walimatul Urus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ivory: #f7f3eb;
-      --sand: #e8d8bf;
-      --gold: #b38a4d;
-      --olive: #3c4c3f;
-      --rosewood: #6e4a3f;
-      --text: #2c2a26;
-      --card: rgba(255, 252, 246, 0.82);
-      --shadow: 0 18px 60px rgba(60, 48, 32, 0.18);
-      --radius: 28px;
+      --bg: #12060a;
+      --phone: #f5f1ec;
+      --ink: #2b1b21;
+      --muted: #705561;
+      --accent: #6e1329;
+      --accent-soft: #8e2945;
+      --line: rgba(110, 19, 41, 0.2);
     }
 
     * {
@@ -28,331 +26,555 @@
     body {
       margin: 0;
       min-height: 100%;
-      font-family: "Manrope", sans-serif;
-      color: var(--text);
-      background: var(--ivory);
-      overflow-x: hidden;
       scroll-behavior: smooth;
+      background: radial-gradient(circle at 20% 15%, #32101c 0%, var(--bg) 48%, #080306 100%);
+      font-family: "Outfit", sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
     }
 
     body {
+      padding: 18px 14px;
+    }
+
+    .phone-frame {
+      width: min(430px, 100%);
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 34px;
+      border: 8px solid #f0f0f0;
+      box-shadow: 0 26px 64px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
       position: relative;
-      line-height: 1.55;
     }
 
-    body::before,
-    body::after {
+    .phone-frame::before {
       content: "";
-      position: fixed;
-      width: 55vmax;
-      height: 55vmax;
-      border-radius: 50%;
-      filter: blur(4px);
-      z-index: -3;
-      opacity: 0.42;
-      pointer-events: none;
-      animation: floatBlob 12s ease-in-out infinite;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 18px;
+      border-radius: 0 0 14px 14px;
+      background: #ececec;
+      z-index: 10;
     }
 
-    body::before {
-      background: radial-gradient(circle at 35% 35%, #e8d8bf 0%, #d7b98c 45%, transparent 75%);
-      top: -20vmax;
-      left: -18vmax;
-    }
-
-    body::after {
-      background: radial-gradient(circle at 60% 45%, #d7b08f 0%, #b38a4d 43%, transparent 75%);
-      bottom: -24vmax;
-      right: -20vmax;
-      animation-delay: -6s;
-    }
-
-    @keyframes floatBlob {
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        transform: translateY(-18px) scale(1.03);
-      }
-    }
-
-    .ornament {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -2;
-      background-image:
-        linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.36) 47%, transparent 100%),
-        repeating-linear-gradient(
-          45deg,
-          rgba(179, 138, 77, 0.07) 0,
-          rgba(179, 138, 77, 0.07) 1px,
-          transparent 1px,
-          transparent 20px
-        );
-      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.65));
-    }
-
-    .music-btn {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      width: 46px;
-      height: 46px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(255, 252, 246, 0.9);
-      box-shadow: 0 8px 22px rgba(34, 30, 24, 0.15);
-      color: var(--rosewood);
-      font-size: 20px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: transform 0.25s ease, background 0.25s ease;
-      z-index: 20;
-    }
-
-    .music-btn:hover {
-      transform: translateY(-2px) scale(1.03);
-      background: #fff;
+    .screen {
+      max-height: calc(100vh - 52px);
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      background: var(--phone);
     }
 
     .scene {
-      min-height: 100vh;
-      width: min(960px, 92vw);
-      margin: 0 auto;
-      padding: clamp(32px, 5vw, 72px) 0;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(26px);
-      animation: reveal 0.9s ease forwards;
-      animation-timeline: view();
-      animation-range: entry 10% cover 34%;
-    }
-
-    @keyframes reveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .panel {
-      width: min(760px, 100%);
-      padding: clamp(28px, 4vw, 56px);
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid rgba(179, 138, 77, 0.25);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(6px);
+      min-height: calc(100vh - 68px);
+      scroll-snap-align: start;
+      padding: 38px 24px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
-      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 1s ease forwards;
+      animation-timeline: view();
+      animation-range: entry 10% cover 32%;
     }
 
-    .panel::before {
+    .scene::before,
+    .scene::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.65), transparent 55%);
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(142, 41, 69, 0.2), rgba(142, 41, 69, 0));
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .scene::before {
+      top: 10px;
+      left: -24px;
+    }
+
+    .scene::after {
+      bottom: 12px;
+      right: -20px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 252, 248, 0.88);
+      padding: 26px 18px;
+      box-shadow: 0 12px 28px rgba(64, 26, 39, 0.08);
     }
 
     .eyebrow {
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 0.22em;
-      font-size: 0.78rem;
-      color: var(--gold);
-      font-weight: 700;
+      font-size: 0.72rem;
+      color: var(--muted);
     }
 
     h1,
     h2 {
       font-family: "Cormorant Garamond", serif;
-      margin: 12px 0;
-      line-height: 1.05;
-      color: #2e241e;
+      color: var(--ink);
+      line-height: 1.1;
+      margin: 10px 0;
     }
 
     h1 {
-      font-size: clamp(2.3rem, 8vw, 4.35rem);
+      font-size: clamp(2.1rem, 10vw, 3.2rem);
       font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     h2 {
-      font-size: clamp(1.7rem, 5.5vw, 2.9rem);
+      font-size: clamp(1.55rem, 7vw, 2.2rem);
       font-weight: 600;
+    }
+
+    .script {
+      font-family: "Alex Brush", cursive;
+      font-size: clamp(1.5rem, 8vw, 2.2rem);
+      color: var(--accent);
+      margin: 10px 0 0;
+    }
+
+    .divider {
+      width: 120px;
+      height: 1px;
+      margin: 14px auto;
+      background: linear-gradient(90deg, rgba(110, 19, 41, 0), rgba(110, 19, 41, 0.7), rgba(110, 19, 41, 0));
     }
 
     .names {
-      margin-top: 18px;
-      font-size: clamp(1.45rem, 4.6vw, 2.15rem);
+      margin: 6px 0;
       font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.22rem, 6vw, 1.74rem);
+      color: var(--accent);
       font-weight: 600;
       line-height: 1.2;
-      color: var(--rosewood);
     }
 
     p {
-      margin: 12px 0;
-      font-size: clamp(0.96rem, 2vw, 1.1rem);
+      margin: 9px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
-    .meta {
-      color: #5c5249;
-      max-width: 58ch;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .event-grid {
-      margin-top: 24px;
+    .event-list {
+      margin-top: 14px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 10px;
       text-align: left;
     }
 
     .event-item {
-      border: 1px solid rgba(110, 74, 63, 0.2);
-      background: rgba(255, 255, 255, 0.72);
-      border-radius: 16px;
-      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff;
+      font-size: 0.9rem;
+      color: #4a3940;
     }
 
     .event-item strong {
-      display: block;
-      font-size: 0.77rem;
-      letter-spacing: 0.14em;
+      color: var(--accent);
+      font-size: 0.73rem;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 7px;
+      letter-spacing: 0.14em;
+      display: block;
+      margin-bottom: 3px;
     }
 
     .btn {
-      margin-top: 26px;
+      margin-top: 16px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      border-radius: 999px;
       border: 0;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 700;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-size: 0.86rem;
+      font-weight: 600;
       letter-spacing: 0.04em;
-      font-size: 0.92rem;
-      padding: 13px 24px;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.24s ease, box-shadow 0.24s ease;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #3e5644, #5a7862);
       color: #fff;
-      box-shadow: 0 12px 24px rgba(54, 70, 56, 0.25);
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      box-shadow: 0 10px 22px rgba(110, 19, 41, 0.28);
     }
 
     .btn-secondary {
-      background: linear-gradient(145deg, #b38a4d, #c79d5d);
       color: #fff;
-      box-shadow: 0 12px 24px rgba(100, 70, 25, 0.22);
+      background: linear-gradient(135deg, #7e5160, #a06b7d);
+      box-shadow: 0 10px 22px rgba(91, 59, 70, 0.25);
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 30px rgba(52, 44, 34, 0.22);
     }
 
-    .closing {
+    .song {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6f5a63;
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--accent);
+      font-size: 0.95rem;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .envelope-wrap {
+      width: 180px;
+      margin: 10px auto 14px;
+      perspective: 600px;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 110px;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fff, #f3ece6);
+      border: 1px solid #d8c4cb;
+      border-radius: 6px;
+      box-shadow: 0 6px 14px rgba(52, 22, 33, 0.14);
+      overflow: hidden;
+    }
+
+    .wax {
+      position: absolute;
+      left: 50%;
+      top: 53%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #b74462, #7c1832 68%);
+      box-shadow: 0 2px 8px rgba(80, 22, 40, 0.35);
+      color: #f6d8df;
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(2rem, 6vw, 3rem);
-      color: var(--rosewood);
-      margin: 4px 0;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
     }
 
-    @media (max-width: 760px) {
-      .event-grid {
-        grid-template-columns: 1fr;
-      }
+    .envelope-flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 54px;
+      background: linear-gradient(180deg, #fefefe, #e9ddd1);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform 0.95s ease;
+      border: 1px solid #d8c4cb;
+      border-bottom: 0;
+      z-index: 2;
+    }
 
-      .scene {
-        width: min(760px, 94vw);
-      }
+    .letter {
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      width: 130px;
+      height: 74px;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #e1d0d7;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(71, 23, 39, 0.15);
+      transition: transform 0.95s ease;
+      display: grid;
+      place-items: center;
+      font-family: "Alex Brush", cursive;
+      color: var(--accent);
+      font-size: 24px;
+      z-index: 1;
+    }
 
-      .music-btn {
-        top: 12px;
-        right: 12px;
+    .envelope.open .envelope-flap {
+      transform: rotateX(170deg);
+    }
+
+    .envelope.open .letter {
+      transform: translateX(-50%) translateY(-46px);
+    }
+
+    .countdown {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .time-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 4px;
+    }
+
+    .time-box .num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .time-box .lbl {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .contact-list {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .contact-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .icon-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .contact-name {
+      margin: 0;
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .contact-role {
+      margin: 0;
+      font-size: 0.73rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: var(--accent);
+      font-size: 0.8rem;
+      background: #fff;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
 </head>
 <body>
-  <div class="ornament" aria-hidden="true"></div>
+  <div class="phone-frame">
+    <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
 
-  <audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+    <audio id="music" loop>
+      <source src="young-and-beautiful-instrumental.mp3" type="audio/mpeg">
+    </audio>
 
-  <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
-
-  <section class="scene" id="opening">
-    <div class="panel">
-      <p class="eyebrow">Walimatul Urus</p>
-      <h1>You Are Invited</h1>
-      <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
-      <p class="meta">Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
-      <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
-    </div>
-  </section>
-
-  <section class="scene" id="intro">
-    <div class="panel">
-      <p class="eyebrow">Keluarga</p>
-      <h2>Dengan penuh kesyukuran</h2>
-      <p>Puteri kepada:</p>
-      <p><strong>Nordin bin Mohammad</strong><br>&amp;<br><strong>Suriani Binti Abdul Rahim</strong></p>
-    </div>
-  </section>
-
-  <section class="scene" id="event">
-    <div class="panel">
-      <p class="eyebrow">Majlis</p>
-      <h2>Akad Nikah &amp; Reception</h2>
-
-      <div class="event-grid">
-        <div class="event-item">
-          <strong>Tarikh</strong>
-          09 May 2026
+    <main class="screen">
+      <section class="scene" id="opening">
+        <div class="content">
+          <p class="eyebrow">Wedding Invitation</p>
+          <h1>Walimatul Urus</h1>
+          <div class="envelope-wrap">
+            <div class="envelope" id="envelope">
+              <div class="envelope-flap" aria-hidden="true"></div>
+              <div class="envelope-body" aria-hidden="true"></div>
+              <div class="letter" aria-hidden="true">H &amp; S</div>
+              <div class="wax" aria-hidden="true">W</div>
+            </div>
+          </div>
+          <p class="script">You are invited</p>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
+          <p>Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
+          <p class="song">Lana Del Rey - Young and Beautiful (Instrumental)</p>
+          <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
         </div>
-        <div class="event-item">
-          <strong>Masa</strong>
-          10.00 AM - 4.00 PM
-        </div>
-        <div class="event-item">
-          <strong>Lokasi</strong>
-          Laman Dahlia, Kuala Kangsar
-        </div>
-      </div>
+      </section>
 
-      <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
-        Lihat Lokasi
-      </a>
-    </div>
-  </section>
+      <section class="scene" id="intro">
+        <div class="content">
+          <p class="eyebrow">Keluarga</p>
+          <h2>Dengan Penuh Kesyukuran</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p>Puteri kepada:</p>
+          <p class="names">Nordin bin Mohammad<br>&amp;<br>Suriani Binti Abdul Rahim</p>
+        </div>
+      </section>
 
-  <section class="scene" id="closing">
-    <div class="panel">
-      <p class="closing">Terima kasih</p>
-      <p>Atas doa, kasih sayang, dan kehadiran anda.</p>
-    </div>
-  </section>
+      <section class="scene" id="countdownSection">
+        <div class="content">
+          <p class="eyebrow">Detik Bahagia</p>
+          <h2>Menuju Hari Majlis</h2>
+          <p>09 May 2026, 10:00 AM</p>
+          <div class="countdown" aria-live="polite">
+            <div class="time-box">
+              <div class="num" id="days">0</div>
+              <div class="lbl">Hari</div>
+            </div>
+            <div class="time-box">
+              <div class="num" id="hours">0</div>
+              <div class="lbl">Jam</div>
+            </div>
+            <div class="time-box">
+              <div class="num" id="minutes">0</div>
+              <div class="lbl">Minit</div>
+            </div>
+            <div class="time-box">
+              <div class="num" id="seconds">0</div>
+              <div class="lbl">Saat</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="event">
+        <div class="content">
+          <p class="eyebrow">Majlis</p>
+          <h2>Akad Nikah &amp; Reception</h2>
+          <div class="event-list">
+            <div class="event-item">
+              <strong>Tarikh</strong>
+              09 May 2026
+            </div>
+            <div class="event-item">
+              <strong>Masa</strong>
+              10.00 AM - 4.00 PM
+            </div>
+            <div class="event-item">
+              <strong>Lokasi</strong>
+              Laman Dahlia, Kuala Kangsar
+            </div>
+          </div>
+          <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
+            Lihat Lokasi
+          </a>
+        </div>
+      </section>
+
+      <section class="scene" id="contact">
+        <div class="content">
+          <p class="eyebrow">Hubungi</p>
+          <h2>RSVP &amp; Pertanyaan</h2>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="icon-circle" aria-hidden="true">USR</div>
+              <div>
+                <p class="contact-name">Siti Anisah</p>
+                <p class="contact-role">Kakak Pengantin</p>
+              </div>
+              <div class="contact-actions">
+                <a class="action-btn" href="tel:+60123456789" aria-label="Call Siti">CALL</a>
+                <a class="action-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/60123456789" aria-label="WhatsApp Siti">WA</a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="icon-circle" aria-hidden="true">USR</div>
+              <div>
+                <p class="contact-name">Ariq Anif</p>
+                <p class="contact-role">Adik Pengantin</p>
+              </div>
+              <div class="contact-actions">
+                <a class="action-btn" href="tel:+60198765432" aria-label="Call Ariq">CALL</a>
+                <a class="action-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/60198765432" aria-label="WhatsApp Ariq">WA</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="closing">
+        <div class="content">
+          <p class="eyebrow">Terima Kasih</p>
+          <h2>Atas Doa &amp; Kehadiran Anda</h2>
+          <p class="script">Jumpa di hari bahagia kami</p>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script>
     const music = document.getElementById("music");
     const musicButton = document.getElementById("musicButton");
+    const envelope = document.getElementById("envelope");
 
     async function playMusic() {
       try {
@@ -369,8 +591,11 @@
     }
 
     function startInvite() {
+      envelope.classList.add("open");
       playMusic();
-      document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 850);
     }
 
     function toggleMusic() {
@@ -380,6 +605,35 @@
         pauseMusic();
       }
     }
+
+    function updateCountdown() {
+      const target = new Date("2026-05-09T10:00:00+08:00");
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById("days").textContent = "0";
+        document.getElementById("hours").textContent = "0";
+        document.getElementById("minutes").textContent = "0";
+        document.getElementById("seconds").textContent = "0";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("days").textContent = String(days);
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
+
