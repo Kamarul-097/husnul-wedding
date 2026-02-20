@@ -1,158 +1,147 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wedding Invitation</title>
+<title>Walimatul Urus</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
   margin:0;
-  font-family: 'Poppins', sans-serif;
-  background:#fffdf5;
-  color:#444;
-  text-align:center;
+  font-family:'Poppins', sans-serif;
+  overflow-x:hidden;
+  color:white;
 }
 
-section {
-  padding:60px 20px;
-}
-
-h1,h2,h3 {
-  margin:10px 0;
-}
-
-.cover {
-  background:#fff3b0;
-  min-height:100vh;
+.scene {
+  height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  text-align:center;
+  padding:20px;
+  background:linear-gradient(-45deg,#fff3b0,#ffe066,#ffd166,#fff8cc);
+  background-size:400% 400%;
+  animation:gradient 10s ease infinite;
 }
 
-.names {
-  font-size:28px;
+@keyframes gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+h1,h2,h3,p {
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1.5s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.btn {
+  margin-top:20px;
+  padding:12px 25px;
+  border-radius:30px;
+  background:white;
+  color:#444;
+  text-decoration:none;
   font-weight:600;
-}
-
-.date {
-  margin-top:10px;
-  font-size:18px;
 }
 
 .card {
-  background:white;
-  margin:20px auto;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(8px);
   padding:20px;
-  max-width:500px;
   border-radius:12px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  max-width:400px;
 }
 
-.gallery img {
-  width:100%;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-.map-btn {
-  display:inline-block;
-  margin-top:15px;
-  padding:10px 20px;
-  background:#ffe066;
-  border-radius:30px;
-  text-decoration:none;
-  color:#333;
-  font-weight:600;
-}
-
-footer {
-  padding:30px;
-  font-size:14px;
+.music-btn {
+  position:fixed;
+  top:15px;
+  right:15px;
+  background:white;
+  color:#444;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
 }
 </style>
+
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio autoplay loop>
+<audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- COVER -->
-<section class="cover">
-  <h3>Walimatul Urus</h3>
-  <div class="names">Husnul Khatimah<br>&<br>Muhammad Nor Syaffiq</div>
-  <div class="date">09 May 2026 | Saturday</div>
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
+
+<!-- OPENING -->
+
+<section class="scene">
+  <h2 style="animation-delay:0.3s">Walimatul Urus</h2>
+  <h1 style="animation-delay:0.6s">Husnul Khatimah<br>&<br>Muhammad Nor Syaffiq</h1>
+  <a class="btn" onclick="startInvite()">Buka Jemputan</a>
 </section>
 
-<!-- COUPLE -->
-<section>
+<!-- INTRO -->
+
+<section class="scene">
   <h2>Dengan penuh kesyukuran</h2>
-  <div class="card">
-    <p>
-    Puteri kepada<br>
-    <b>Nordin bin Mohammad</b><br>
-    &<br>
-    <b>Suriani Binti Abdul Rahim</b>
-    </p>
-  </div>
+  <p>Puteri kepada</p>
+  <p><b>Nordin bin Mohammad</b><br>&<br><b>Suriani Binti Abdul Rahim</b></p>
 </section>
 
 <!-- EVENT -->
-<section>
-  <h2>Maklumat Majlis</h2>
+
+<section class="scene">
   <div class="card">
-    <h3>Akad Nikah & Reception</h3>
+    <h2>Akad Nikah & Reception</h2>
     <p>09 May 2026</p>
     <p>10.00 AM - 4.00 PM</p>
-    <p>
-      Laman Dahlia, Kuala Kangsar<br>
-      No 5, Kawasan Bandar, Jalan Tun Razak,<br>
-      33000 Kuala Kangsar, Perak
-    </p>
-
-    <a class="map-btn" target="_blank"
-    href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s&sa=X&ved=2ahUKEwia_cDf0-eSAxX4i2MGHUBCISEQ4kB6BAgUEAA&hl=en">
-    📍 Lihat Lokasi
+    <p>Laman Dahlia, Kuala Kangsar</p>
+    <a class="btn" target="_blank"
+    href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
+    Lihat Lokasi
     </a>
   </div>
 </section>
 
-<!-- COUNTDOWN -->
-<section>
-  <h2>Countdown</h2>
-  <div id="countdown"></div>
-</section>
+<!-- CLOSING -->
 
-<!-- GALLERY -->
-<section>
-  <h2>Gallery</h2>
-  <div class="gallery">
-    <img src="img1.jpg">
-    <img src="img2.jpg">
-    <img src="img3.jpg">
-  </div>
+<section class="scene">
+  <h2>Terima kasih</h2>
+  <p>Atas doa & kehadiran anda</p>
 </section>
-
-<footer>
-  Terima kasih atas doa & kehadiran anda ❤️
-</footer>
 
 <script>
-const weddingDate = new Date("May 9, 2026 10:00:00").getTime();
-const x = setInterval(function() {
-  const now = new Date().getTime();
-  const distance = weddingDate - now;
+const music = document.getElementById("music");
 
-  const days = Math.floor(distance / (1000*60*60*24));
-  document.getElementById("countdown").innerHTML = days + " hari lagi";
+function startInvite(){
+  music.play();
+  window.scrollBy({top:window.innerHeight,behavior:'smooth'});
+}
 
-}, 1000);
+function toggleMusic(){
+  if(music.paused){ music.play(); }
+  else{ music.pause(); }
+}
 </script>
 
 </body>
