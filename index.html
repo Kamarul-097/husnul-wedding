@@ -17,11 +17,9 @@
       --accent: #304e6b;
       --accent-2: #c78d56;
       --radius: 24px;
-    }   
-
-    * {
-      box-sizing: border-box;
     }
+
+    * { box-sizing: border-box; }
 
     html,
     body {
@@ -79,13 +77,8 @@
     }
 
     @keyframes drift {
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        transform: translateY(-12px) scale(1.025);
-      }
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.025); }
     }
 
     .music-btn {
@@ -106,10 +99,7 @@
       transition: transform 0.25s ease, background-color 0.25s ease;
     }
 
-    .music-btn:hover {
-      transform: translateY(-1px);
-      background: #fff;
-    }
+    .music-btn:hover { transform: translateY(-1px); background: #fff; }
 
     .section {
       min-height: 100vh;
@@ -136,12 +126,7 @@
       animation-range: entry 8% cover 34%;
     }
 
-    @keyframes softReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes softReveal { to { opacity: 1; transform: translateY(0); } }
 
     .tag {
       margin: 0;
@@ -152,23 +137,15 @@
       color: var(--muted);
     }
 
-    h1,
-    h2 {
+    h1, h2 {
       font-family: "Playfair Display", serif;
       color: #15181c;
       line-height: 1.1;
       margin: 10px 0 14px;
     }
 
-    h1 {
-      font-size: clamp(2.1rem, 8vw, 4.2rem);
-      font-weight: 600;
-    }
-
-    h2 {
-      font-size: clamp(1.65rem, 5vw, 2.6rem);
-      font-weight: 600;
-    }
+    h1 { font-size: clamp(2.1rem, 8vw, 4.2rem); font-weight: 600; }
+    h2 { font-size: clamp(1.65rem, 5vw, 2.6rem); font-weight: 600; }
 
     .names {
       font-family: "Playfair Display", serif;
@@ -183,11 +160,7 @@
       font-size: clamp(0.96rem, 2vw, 1.06rem);
     }
 
-    .song {
-      margin-top: 12px;
-      font-size: 0.9rem;
-      color: #3b4654;
-    }
+    .song { margin-top: 12px; font-size: 0.9rem; color: #3b4654; }
 
     .btn {
       margin-top: 22px;
@@ -217,9 +190,7 @@
       box-shadow: 0 12px 24px rgba(131, 85, 40, 0.24);
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
+    .btn:hover { transform: translateY(-2px); }
 
     .event-grid {
       margin-top: 22px;
@@ -253,15 +224,16 @@
     }
 
     @media (max-width: 760px) {
-      .event-grid {
-        grid-template-columns: 1fr;
-      }
+      .event-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="gradient-layer" aria-hidden="true"></div>
 
+  <audio id="music" loop preload="none">
+    <source src="young-and-beautiful-instrumental.mp3" type="audio/mpeg">
+  </audio>
 
   <button class="music-btn" id="musicButton" type="button" onclick="toggleMusic()" aria-label="Toggle music">♫</button>
 
@@ -271,7 +243,7 @@
       <h1>Walimatul Urus</h1>
       <p class="names">Husnul Khatimah<br>&amp;<br>Muhammad Nor Syaffiq</p>
       <p>Dengan penuh rasa syukur, kami menjemput tuan/puan untuk memeriahkan hari bahagia kami.</p>
-      <p class="song">With love & prayers</p>
+      <p class="song">Music starts only after click</p>
       <button class="btn btn-primary" type="button" onclick="startInvite()">Buka Jemputan</button>
     </div>
   </section>
@@ -303,9 +275,7 @@
           Laman Dahlia, Kuala Kangsar
         </div>
       </div>
-      <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">
-        Lihat Lokasi
-      </a>
+      <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x31cabdee491a3ba3:0x76a627a7e890c864?entry=s">Lihat Lokasi</a>
     </div>
   </section>
 
@@ -317,8 +287,25 @@
   </section>
 
   <script>
-    
-    function startInvite() {
+    const music = document.getElementById("music");
+    const musicButton = document.getElementById("musicButton");
+
+    async function toggleMusic() {
+      if (music.paused) {
+        try {
+          await music.play();
+          musicButton.textContent = "❚❚";
+        } catch (error) {
+          musicButton.textContent = "♫";
+        }
+      } else {
+        music.pause();
+        musicButton.textContent = "♫";
+      }
+    }
+
+    async function startInvite() {
+      await toggleMusic();
       document.getElementById("intro").scrollIntoView({ behavior: "smooth", block: "start" });
     }
   </script>
